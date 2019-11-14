@@ -21,11 +21,7 @@ import { mapState } from 'vuex';
 import Logo from '~/components/Logo.vue';
 
 export default {
-  head () {
-    return {
-      title: `Rover curiosity de la Nasa | Expedición en Marte`
-    }
-  },
+  name : "Curiosity",
   components: {
     Logo
   },

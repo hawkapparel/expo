@@ -32,10 +32,35 @@ import { mapState } from 'vuex';
 import Logo from '~/components/Logo.vue'
 
 export default {
-  head () {
+  head() {
     return {
-      title: `Rover curiosity de la Nasa | Expedición en Marte`
-    }
+      title: this.data.title,
+      meta: [
+        { hid: 'description',
+          name: 'description',
+          content: this.data.explanation
+        },
+        {
+          hid: 'og:title',
+          property: 'og:title',
+          content: this.data.title
+        },
+        {
+          property: 'og:description',
+          content: this.data.explanation
+        },
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: '/'
+        },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: this.data.url
+        },
+      ],
+    };
   },
   components: {
     Logo
@@ -60,6 +85,7 @@ export default {
 
 <style>
 .container {
+  max-width: 1200px;
   margin: 0 auto;
   min-height: 100vh;
   display: flex;
