@@ -1,25 +1,14 @@
 <template>
   <div class="container">
     <div>
-      <logo />
+      <button class="backto" @click="backto">ATRAS</button>
       <h1 class="title">
-        nuxt-ssr
+        OTRA PAGINA
       </h1>
       <h2 class="subtitle">
-        <nuxt-link to="/curiosity">Explorando Marte con Curiosity</nuxt-link>
+        Explorando Marte con Curiosity
       </h2>
-      <img class="batlecruiser" src="~/assets/images/batlecruiser.jpg" alt="batlecruiser">
-      <div class="photos">
-        <h3>Foto del día de la NASA</h3>
-        <p><strong>Copyright:</strong> {{ data.copyright }}</p>
-        <p><strong>Fecha:</strong> {{ data.date }}</p>
-        <p><strong>Explicación:</strong></p>
-        <p>{{ data.explanation }}</p>
-        <p><strong>Nombre de la foto:</strong> {{ data.title }}</p>
-        <div class="day-container">
-          <img class="image-of-day" :src="data.hdurl">
-        </div>
-      </div>
+      <img class="batlecruiser" src="~/assets/images/curiosityselfiemay2019.jpg" alt="curiosityselfiemay2019">
     </div>
   </div>
 </template>
@@ -29,7 +18,7 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 
-import Logo from '~/components/Logo.vue'
+import Logo from '~/components/Logo.vue';
 
 export default {
   head () {
@@ -40,21 +29,36 @@ export default {
   components: {
     Logo
   },
-  async fetch({ app, store }) {
-    console.log("*****FETCH DEL INDEX*****");
-    //https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=nlgCNzPbHfD2NqTx3LHUoU4cobCu0vmAdY4FRTgZ
-    let photos = await axios.get(`https://api.nasa.gov/planetary/apod?api_key=nlgCNzPbHfD2NqTx3LHUoU4cobCu0vmAdY4FRTgZ`);
+  data () {
+      return {
+        //data: {}
+      }
+    },
+  computed: {
+    ...mapState({
+      data: state => state.data
+    })
+  },
+  created() {
+    return axios.get('https://api.nasa.gov/planetary/apod?api_key=nlgCNzPbHfD2NqTx3LHUoU4cobCu0vmAdY4FRTgZ')
+      .then(json => {
+        //this.data = json.data;
+        this.$store.commit('setData', json.data);
+      })
 
-    console.log("photos");
-    console.log(photos.data);
-    store.commit('setData', photos.data);
 
   },
-  computed: {
-      ...mapState({
-        data: state => state.data
-      })
-    },
+  beforeMount() {
+
+  },
+  mounted() {
+
+  },
+  methods: {
+    backto(){
+      this.$router.back();
+    }
+  }
 }
 </script>
 
